@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<style>
+    * {
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+    }
+    
+    body {
+        margin-left: auto;
+        margin-right: auto;
+        background-color: tan;
+        width: 316px;
+        border: 1px solid black;
+    }
+    
+    p {
+        margin: 7px;
+    }
+    
+    header {
+        text-align: center;
+        font-size: 1rem;
+        font-variant: small-caps;
+        font-weight: bold;
+        background-color: burlywood;
+    }
+    
+    ul {
+        text-align: center;
+    }
+    
+    li {
+        list-style: none;
+    }
+    
+    a {
+        color: black;
+        text-decoration: none;
+    }
+    
+    hr {
+        border: 1px solid black;
+    }
+    
+    li:hover {
+        background-color: orange;
+    }
+    
+    .sibling {
+        background-color: rgb(224, 203, 175);
+        padding: 3px;
+        text-align: left;
+    }
+</style>
+
+<body>
+    <header>Find Bible Places</header>
+    <hr>
+    <nav>
+        <ul>
+            <li>
+                <div class='nestburger'>Home</div>
+                <div class='sibling'> <a href="https://github.com/garydavenport73/findBiblePlaces/">https://github.com/garydavenport73/findBiblePlaces/</a></div>
+            </li>
+            <li>
+                <div class='nestburger'>Contact</div>
+                <div class='sibling'><a href="mailto:garydavenport73@gmail.com">mailto:garydavenport73@gmail.com</a></div>
+            </li>
+            <li>
+                <div class='nestburger initial-open'>About</div>
+                <div class='sibling'>
+                    <p>Look for the search button and drop down-list in the top middle of the page. Click 'Find Bible Places' and then select the place you'd like to see on a map.</p>
+                    <p>Look for overlays of Biblical maps coming soon!</p>
+                </div>
+            </li>
+            <li>
+                <div class='nestburger'>Credits</div>
+                <div class='sibling'>https://github.com/openbibleinfo/Bible-Geocoding-Data</div>
+                <div class='sibling'>https://www.openbible.info/geo/</div>
+            </li>
+        </ul>
+    </nav>
+    <script src="popup.js"></script>
+</body>
+
+</html>
