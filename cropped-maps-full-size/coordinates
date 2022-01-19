@@ -1,0 +1,10 @@
+nw lat, nw long, se lat, se long
+
+
+mapCoordinates[1] = [60, 10, 0, 110];
+mapCoordinates[2] = [50, 13, 25, 55];
+mapCoordinates[3] = [35, 33.7, 30.5, 36.7];
+mapCoordinates[4] = [32.4, 29.5, 27 , 38.3];
+mapCoordinates[5] = [34, 34.25, 30.75, 36.6];
+mapCoordinates[6] = [36.33, 33, 29.25, 39.6 ];
+mapCoordinates[7] = [34.2,34.2 , 30.8, 37.3];
