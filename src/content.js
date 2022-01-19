@@ -1544,7 +1544,7 @@ function openGoogleMapsFromSelectedOption() {
         //window.open("https://www.google.com/search?q=map:31.777444,35.234935"); //Jerusalem
     } else {
         let cityTempArray = mySelect.value.split(",");
-        console.log(cityTempArray);
+        //console.log(cityTempArray);
         let tempGoogleMapURL = `https://www.google.com/search?q=map:${cityTempArray[1]},${cityTempArray[2]}`;
         console.log(tempGoogleMapURL);
         window.open(tempGoogleMapURL);
@@ -1664,7 +1664,7 @@ let allBibleImages = document.getElementsByClassName('Bible-place-finder-img');
 //some styling performed on elements this app places in page
 function restyle() {
     for (i = 0; i < allBibleDivs.length; i++) {
-        console.log(allBibleDivs[i]);
+        //console.log(allBibleDivs[i]);
         allBibleDivs[i].style.boxSizing = 'border-box';
         allBibleDivs[i].style.display = 'block';
         allBibleDivs[i].style.margin = '0px';
