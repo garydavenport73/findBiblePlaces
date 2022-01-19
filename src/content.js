@@ -1164,45 +1164,418 @@ let locations = {
     "Zuph": "31.84684772753698,35.18491237777512"
 };
 
-//note script is written in non-hoisted format which
-//is not necessary but useful in case program is 
-//built on another platform/language
-
 let elements = document.getElementsByTagName('*');
 
-//Adding button and drop down list to existing page
+//Main Div below sticky tool bar, children to be added
 let myDiv = document.createElement('div');
+myDiv.classList.add('Bible-place-finder-div');
 document.body.prepend(myDiv);
 
+//Top control sticky buttons
+let myTopControlsDiv = document.createElement('div');
+myTopControlsDiv.classList.add('Bible-place-finder-div');
+document.body.prepend(myTopControlsDiv);
+myTopControlsDiv.style.position = 'fixed';
+myTopControlsDiv.style.zIndex = 999999;
+myTopControlsDiv.style.top = 0;
+myTopControlsDiv.style.left = '50%';
+myTopControlsDiv.style.textAlign = 'center';
+myTopControlsDiv.style.transform = 'translate(-50%, 0%)';
+
+//Add find button to top controls
 let findButton = document.createElement('button');
+findButton.classList.add('Bible-place-finder-button');
 findButton.innerHTML = "Find Bible Places";
-myDiv.appendChild(findButton);
+myTopControlsDiv.appendChild(findButton);
 findButton.addEventListener("click", checkPageForCities);
 
+//Add select drop-down to top controls
 let mySelect = document.createElement('select');
-
-myDiv.appendChild(mySelect);
-
+mySelect.classList.add('Bible-place-finder-select');
+myTopControlsDiv.appendChild(mySelect);
 let myBlankOption = document.createElement('option');
+myBlankOption.classList.add('Bible-place-finder-option');
 myBlankOption.innerHTML = "---";
 myBlankOption.value = "---";
 mySelect.appendChild(myBlankOption);
+mySelect.addEventListener('change', (evt) => { showOptionValue(evt) });
 
-myDiv.style.position = 'fixed';
-myDiv.style.zIndex = 9999;
-myDiv.style.top = 0;
+//Add toggle map images button
+let myToggleMapButton = document.createElement('button');
+myToggleMapButton.classList.add('Bible-place-finder-button');
+myToggleMapButton.innerHTML = "Toggle Maps";
+myTopControlsDiv.appendChild(myToggleMapButton);
+myToggleMapButton.addEventListener("click", toggleMap);
+
+//Add "-" button to shrink map size
+let buttonShrinkMap = document.createElement('button');
+buttonShrinkMap.classList.add('Bible-place-finder-button');
+buttonShrinkMap.id = 'shrink-map';
+buttonShrinkMap.addEventListener('click', shrinkMap);
+buttonShrinkMap.innerHTML = '-';
+buttonShrinkMap.disabled = true;
+myTopControlsDiv.appendChild(buttonShrinkMap);
+
+//Add "+" button to enlarge map
+let buttonEnlargeMap = document.createElement('button');
+buttonEnlargeMap.classList.add('Bible-place-finder-button');
+buttonEnlargeMap.id = 'enlarge-map';
+buttonEnlargeMap.addEventListener('click', enlargeMap);
+buttonEnlargeMap.innerHTML = '+';
+buttonEnlargeMap.disabled = true;
+myTopControlsDiv.appendChild(buttonEnlargeMap);
+
+//Add area to contain map stuff
+let myMapDiv = document.createElement('div');
+myMapDiv.classList.add('Bible-place-finder-div');
+myMapDiv.style.display = "none";
+myMapDiv.style.backgroundColor = "tan";
+myDiv.appendChild(myMapDiv);
+
+//Add container for image in map area
+let myImageDiv = document.createElement('div');
+myImageDiv.classList.add('Bible-place-finder-div');
+
+//Add and image
+let myMap = document.createElement('img');
+
+//Add a container for image selection controls
+let myImageControlsDiv = document.createElement('div');
+
+//add buttons to bottom of map area
+let button1 = document.createElement('button');
+button1.classList.add('Bible-place-finder-button');
+button1.id = 'Bible-place-finder-button1';
+button1.addEventListener('click', (evt) => { chooseMap(evt) });
+button1.innerHTML = "Canaan";
+
+let button2 = document.createElement('button');
+button2.classList.add('Bible-place-finder-button');
+button2.id = "Bible-place-finder-button2";
+button2.addEventListener('click', (evt) => { chooseMap(evt) });
+button2.innerHTML = "Exodus";
+
+let button3 = document.createElement('button');
+button3.classList.add('Bible-place-finder-button');
+button3.id = "Bible-place-finder-button3";
+button3.addEventListener('click', (evt) => { chooseMap(evt) });
+button3.innerHTML = "12 Tribes";
+
+let button4 = document.createElement('button');
+button4.classList.add('Bible-place-finder-button');
+button4.id = "Bible-place-finder-button4";
+button4.addEventListener('click', (evt) => { chooseMap(evt) });
+button4.innerHTML = "David";
+
+let button5 = document.createElement('button');
+button5.classList.add('Bible-place-finder-button');
+button5.id = "Bible-place-finder-button5";
+button5.addEventListener('click', (evt) => { chooseMap(evt) });
+button5.innerHTML = "Divided Kingdoms";
+
+let button6 = document.createElement('button');
+button6.classList.add('Bible-place-finder-button');
+button6.id = "Bible-place-finder-button6";
+button6.addEventListener('click', (evt) => { chooseMap(evt) });
+button6.innerHTML = "Christ";
+
+let button7 = document.createElement('button');
+button7.classList.add('Bible-place-finder-button');
+button7.id = "Bible-place-finder-button7";
+button7.addEventListener('click', (evt) => { chooseMap(evt) });
+button7.innerHTML = "Paul";
+
+let button8 = document.createElement('button');
+button8.classList.add('Bible-place-finder-button');
+button8.id = "Bible-place-finder-button8";
+button8.addEventListener('click', openGoogleMapsFromSelectedOption);
+button8.innerHTML = "Google Maps";
+
+myImageControlsDiv.appendChild(button1);
+myImageControlsDiv.appendChild(button2);
+myImageControlsDiv.appendChild(button3);
+myImageControlsDiv.appendChild(button4);
+myImageControlsDiv.appendChild(button5);
+myImageControlsDiv.appendChild(button6);
+myImageControlsDiv.appendChild(button7);
+myImageControlsDiv.appendChild(button8);
+
+//Add these controls to the bottom container
+myMapDiv.appendChild(myImageDiv);
+myMapDiv.appendChild(myImageControlsDiv);
+
+//Add the image to the map image container
+myImageDiv.appendChild(myMap);
+
+//set default image on load
+let mapURL = chrome.extension.getURL("/images/map3.png");
+myMap.src = mapURL;
+
+//make a map marker
+let bullsEye = document.createElement('div');
+bullsEye.classList.add('Bible-place-finder-div');
+bullsEye.innerHTML = "";
+bullsEye.style.position = 'absolute';
+bullsEye.style.fontSize = "5em";
+myImageDiv.appendChild(bullsEye);
+
+//bottom container styled
+myDiv.style.position = 'absolute';
+myDiv.style.zIndex = 99999;
+myDiv.style.top = '30px';
 myDiv.style.left = '50%';
 myDiv.style.textAlign = 'center';
 myDiv.style.transform = 'translate(-50%, 0%)';
 
-mySelect.addEventListener('change', (evt) => { showOptionValue(evt) });
+//create a message to dispay at top of map
+//for latitude/longitude and other info etc.
+let message = document.createElement('div');
+message.classList.add('Bible-place-finder-div');
+message.innerHTML = "";
+message.style.position = 'absolute';
+message.style.color = "saddlebrown";
+message.style.backgroundColor = "tan";
+myImageDiv.appendChild(message);
 
-function showOptionValue(evt) {
-    if (evt.target.value != "---") {
-        window.open(evt.target.value);
+//shrinks map and bullseye
+function shrinkMap() {
+    //console.log("w: " + myMap.width + "   x    h: " + myMap.height);
+    if (myMap.height > 200) {
+        myMap.height = myMap.height * 0.9;
+        let floatFontSize = parseFloat(bullsEye.style.fontSize.slice(0, -2));
+        floatFontSize = floatFontSize * 0.9;
+        bullsEye.style.fontSize = floatFontSize.toString() + "em";
+        plotBullsEye();
     }
 }
 
+//enlarges map and bullseye
+function enlargeMap() {
+    //console.log("w: " + myMap.width + "   x    h: " + myMap.height);
+    if (myMap.height < 2000) {
+        myMap.height = myMap.height / 0.9;
+        let floatFontSize = parseFloat(bullsEye.style.fontSize.slice(0, -2));
+        floatFontSize = floatFontSize / 0.9;
+        bullsEye.style.fontSize = floatFontSize.toString() + "em";
+        plotBullsEye();
+    }
+}
+
+// map numbers png are not in order, but match Bible Dictionary
+// map numbers from book source
+let mapIndexObject = {}
+mapIndexObject['1'] = '3';
+mapIndexObject['2'] = '4';
+mapIndexObject['3'] = '5';
+mapIndexObject['4'] = '6';
+mapIndexObject['5'] = '7';
+mapIndexObject['6'] = '13';
+mapIndexObject['7'] = '15';
+
+//load map based on button clicked
+function chooseMap(evt) {
+    bullsEye.innerHTML = "";
+    //gets last digit from button clicked id
+    let tempStringIndex = evt.target.id.slice(-1);
+    //create string to locate map in folder
+    let tempString = "/images/map" + mapIndexObject[tempStringIndex] + ".png";
+    mapURL = chrome.extension.getURL(tempString);
+    myMap.src = mapURL;
+    //wait for map to be loaded because plot will rely on
+    //map image characteristics, width etc.
+    setTimeout(() => {
+        plotBullsEye();
+        placeMessage();
+    }, 500);
+
+}
+
+//plot map marker ie bullseye based on
+//select option choice.
+function showOptionValue(evt) {
+    if (evt.target.value != "---") {
+        bullsEye.innerHTML = "";
+        plotBullsEye();
+    } else {
+        bullsEye.innerHTML = "";
+    }
+}
+
+let mapCoordinates = {};
+// Notes:
+//                 Bible Dictionary
+// name            printed map number         
+//----------------------------------
+// Canaan          3                    
+// Exodus          4                    
+// 12 Tribes       5                    
+// David           6                   
+// Judah/Israel    7                   
+// Christ          13                   
+// Paul            15                   
+
+// description of coordinates:
+//nw lat, nw long, se lat, se long
+
+mapCoordinates['3'] = [34.98, 33.41, 30.5, 36.68];
+mapCoordinates['4'] = [32.35, 28.65, 27.28, 38.18];
+mapCoordinates['5'] = [33.9, 34.24, 30.8, 36.51];
+mapCoordinates['6'] = [36.28, 33.17, 29.3, 39.67];
+mapCoordinates['7'] = [34.27, 34.19, 30.92, 37.31];
+mapCoordinates['13'] = [33.82, 34.29, 30.76, 36.57];
+mapCoordinates['15'] = [43.75, 12.5, 30.69, 38.4];
+mapCoordinates['15'] = [43.2, 13, 30.14, 39.1];
+
+function plotBullsEye() {
+    //Notes:
+    //nw lat, nw long, se lat, se long
+
+    bullsEye.innerHTML = "";
+    if (mySelect.value === "---") {
+        //do nothing, nothing selected
+    } else {
+        //get coordinates of city from select option value
+        let coordinatesTempArray = mySelect.value.split(",");
+        let longitude = coordinatesTempArray[2];
+        let latitude = coordinatesTempArray[1];
+        //courtesy print to console
+        console.log();
+        console.log(coordinatesTempArray[0] + ":");
+        console.log("longitude: " + longitude.toString() + ", latitude: " + latitude.toString());
+        message.innerHTML = "";
+
+        //extract map number from map filename
+        let mapNumberString = myMap.src.split(".png")[0];
+        let tempArray = mapNumberString.split("map");
+        mapNumberString = tempArray[tempArray.length - 1];
+
+        //get lat/long coordinates of four corners of map from mapCoordinates object
+        let theseCoordinates = mapCoordinates[mapNumberString];
+
+        //nw lat, nw long, se lat, se long
+        //scaling based on current size of map
+        let xslope = myMap.width / (theseCoordinates[3] - theseCoordinates[1]);
+        let xValue = xslope * (longitude - theseCoordinates[1]);
+        let yslope = myMap.height / (theseCoordinates[0] - theseCoordinates[2]);
+        let yValue = yslope * (theseCoordinates[0] - latitude);
+
+        //special adjustments for map number 15, which is curved, not very cartesian
+        if (mapNumberString === '15') {
+
+            //nw lat, nw long, se lat, se long
+
+            /////Y correction
+            let yCorrectionFactor = 0;
+            let maxPixelCorrection = .5 * yslope; //trial and error guess
+
+            let xMiddle = (theseCoordinates[3] + theseCoordinates[1]) / 2; //center longitude
+            let mapLongitudeHalfWidth = (theseCoordinates[3] - theseCoordinates[1]) / 2.0; //measurement of half width
+            let xDistanceToCenter = Math.abs(longitude - xMiddle); //distance away from x center
+
+            yCorrectionFactor = maxPixelCorrection * (xDistanceToCenter / mapLongitudeHalfWidth);
+
+            yValue = yValue - yCorrectionFactor;
+
+            ///// X correctiton
+
+            let yMiddle = (theseCoordinates[2] + theseCoordinates[0]) / 2; //center latitude
+            let xCorrectionSlope = 7; //guess
+            let xCorrection = (yMiddle - latitude) * xCorrectionSlope;
+
+            ////correct + or - and amount based on which quadrant location is in with origin at center of map
+            if (latitude < yMiddle) { //bottom
+                if (longitude > xMiddle) { //right side
+                    xCorrection = Math.abs(xCorrection); //right side, add to widen
+                } else {
+                    xCorrection = -Math.abs(xCorrection); //left side, subtract to widen
+                }
+            }
+
+            if (latitude > yMiddle) { //top  
+                if (longitude > xMiddle) { //right side
+                    //1.3 is guess/trial and error
+                    xCorrection = -1.3 * Math.abs(xCorrection); //right side subtract to shrink
+                } else {
+                    xCorrection = 1.3 * Math.abs(xCorrection); //left side, add to shrink
+                }
+            }
+            xValue = xValue + xCorrection;
+        }
+
+        //yValue and xValue are known, now place the bullseye
+
+        //account for left and top of current map location
+        let leftOffset = myMap.offsetLeft;
+        let topOffset = myMap.offsetTop;
+
+        xValue = xValue + leftOffset;
+
+        yValue = yValue + topOffset;
+
+        bullsEye.style.left = xValue.toString() + "px";
+        bullsEye.style.top = yValue.toString() + "px";
+        bullsEye.innerHTML = "&#8857;"; //a circle
+
+        //build message string to display at top left of map showing lat/long and if off map
+        let messageString = "lat:" + latitude.toString() + " long:" + longitude.toString();
+        if (
+            (xValue < leftOffset) ||
+            (xValue > leftOffset + myMap.width) ||
+            (yValue < topOffset) ||
+            (yValue > topOffset + myMap.height)
+        ) {
+            console.log("(off map)");
+            messageString = messageString + " (off map)"; //if off map add to string
+            bullsEye.innerHTML = "";
+        } else {
+            bullsEye.style.color = "tomato";
+            bullsEye.innerHTML = "&#9711;";
+        }
+
+        setTimeout(() => { //show lat/long message after everything loads
+            message.innerHTML = messageString;
+        }, 1000);
+    }
+}
+
+//if Google Maps option is selected, launch a new webpage with constructed URL
+function openGoogleMapsFromSelectedOption() {
+    if (mySelect.value === "---") {
+        //window.open("https://www.google.com/search?q=map:31.777444,35.234935"); //Jerusalem
+    } else {
+        let cityTempArray = mySelect.value.split(",");
+        console.log(cityTempArray);
+        let tempGoogleMapURL = `https://www.google.com/search?q=map:${cityTempArray[1]},${cityTempArray[2]}`;
+        console.log(tempGoogleMapURL);
+        window.open(tempGoogleMapURL);
+    }
+}
+
+//displays or hides current map, + or - controls of map size disabled when map not visible 
+function toggleMap() {
+    if (myMapDiv.style.display === "none") {
+        myMapDiv.style.display = "inherit";
+        buttonShrinkMap.disabled = false;
+        buttonEnlargeMap.disabled = false;
+        bullsEye.innerHTML = "";
+        plotBullsEye();
+        placeMessage();
+    } else {
+        myMapDiv.style.display = "none";
+        buttonShrinkMap.disabled = true;
+        buttonEnlargeMap.disabled = true;
+    }
+}
+
+//relocates message to upper left of current map
+function placeMessage() {
+    message.style.left = myMap.offsetLeft.toString() + "px";
+    message.style.top = myMap.offsetTop.toString() + "px";
+}
+
+//Since last version, I exclude buttons I placed on webpage.
+//I also include elements children which all are text intermingled in 
+//the inner html with anchor tags, not just pure text
 function makeLongString(elements) { //takes all elements and produces a 
     //long string containing the inner text of relevant viewable text
     let longString = "";
@@ -1215,44 +1588,132 @@ function makeLongString(elements) { //takes all elements and produces a
             (element.nodeName != 'META') &&
             (element.nodeName != 'path') &&
             (element.nodeName != 'DIALOG') &&
-            (element.childNodes.length == 1)
-        ) {
-            if (element.childNodes[0].nodeType == 3) {
-                longString += " " + element.innerText + " ";
+            (elements[i].id.substring(0, 25) != 'Bible-place-finder-button')
+        ) { //loop through elements nodes and if text add them to the string
+            for (j = 0; j < element.childNodes.length; j++) {
+                if (element.childNodes[j].nodeType == 3) {
+                    longString += " " + element.innerText + " ";
+                }
             }
         }
     }
     return longString;
 }
 
+//initialize string on page used for subsequent searches
 longString = makeLongString(elements);
 
+//removed spacing requirements around search string, but still fairly specific
+//as capitalization rules help weed out substrings, regex might be a little
+//better but likely slower without significant effect on user experience
 function isCityInPage(city, longString) {
-    if (longString.indexOf(" " + city + " ") != -1) {
+    if (longString.indexOf(city) != -1) {
         return true;
     }
 }
 
+//search initated by find button
 function checkPageForCities() {
-    for (let i = mySelect.options.length - 1; i >= 0; i--) {
-        mySelect.remove(i);
-    }
-    let myOption = document.createElement('option');
-    myOption.innerHTML = "---";
-    myOption.value = "---";
-    mySelect.appendChild(myOption);
+    message.innerHTML = "Searching....";
+    findButton.innerHTML = "Searching...";
+    findButton.style.backgroundColor = 'tomato';
+    findButton.style.color = 'white';
+    //allows for above style changes to take place before starting search
+    setTimeout(() => {
+        //remove current options from select
+        for (let i = mySelect.options.length; i >= 0; i--) {
+            mySelect.remove(i);
+        }
 
-    let startTimeStamp = Date.now();
-    for (let city in locations) {
-        //console.log(city);
-        if (isCityInPage(city, longString)) {
-            console.log("!!!!Found!!!" + city);
-            let myOption = document.createElement('option');
-            myOption.innerHTML = city;
-            myOption.value = "https://www.google.com/search?q=map:" + locations[city];
-            mySelect.appendChild(myOption);
-        };
-    }
-    let stopTimeStamp = Date.now();
-    console.log("elapsed time = ", (stopTimeStamp - startTimeStamp) / 1000);
+        // base option "---"
+        let myOption = document.createElement('option');
+        myOption.classList.add('Bible-place-finder-option');
+        myOption.innerHTML = "---";
+        myOption.value = "---";
+        mySelect.appendChild(myOption);
+
+        let startTimeStamp = Date.now(); //use to calculate elapse search time
+        for (let city in locations) {
+            if (isCityInPage(city, longString)) {
+                console.log("!!!!Found!!!" + city); //courtesy console notification
+                let myOption = document.createElement('option');
+                myOption.classList.add('Bible-place-finder-option');
+                myOption.innerHTML = city;
+                myOption.value = `${city},${locations[city]}`;
+                mySelect.appendChild(myOption);
+            };
+        }
+
+        let stopTimeStamp = Date.now();
+        console.log("elapsed time = ", (stopTimeStamp - startTimeStamp) / 1000); //courtesy console notification
+        message.innerHTML = "Elapsed time = " + ((stopTimeStamp - startTimeStamp) / 1000).toString() + " seconds.";
+        findButton.innerHTML = "Find Bible Places";
+        findButton.style.backgroundColor = 'gainsboro';
+        findButton.style.color = 'black';
+
+    }, 100);
+
 }
+
+let allBibleDivs = document.getElementsByClassName('Bible-place-finder-div');
+let allBibleButtons = document.getElementsByClassName('Bible-place-finder-button');
+let allBibleSelects = document.getElementsByClassName('Bible-place-finder-select');
+let allBibleOptions = document.getElementsByClassName('Bible-place-finder-option');
+let allBibleImages = document.getElementsByClassName('Bible-place-finder-img');
+
+//some styling performed on elements this app places in page
+function restyle() {
+    for (i = 0; i < allBibleDivs.length; i++) {
+        console.log(allBibleDivs[i]);
+        allBibleDivs[i].style.boxSizing = 'border-box';
+        allBibleDivs[i].style.display = 'block';
+        allBibleDivs[i].style.margin = '0px';
+        allBibleDivs[i].style.padding = '0px';
+    }
+    myMapDiv.style.display = "none";
+
+    for (i = 0; i < allBibleButtons.length; i++) {
+        allBibleButtons[i].style.backgroundColor = 'gainsboro';
+        allBibleButtons[i].style.boxSizing = 'border-box';
+        allBibleButtons[i].style.color = 'black';
+        allBibleButtons[i].style.padding = '4px';
+        allBibleButtons[i].style.margin = '0px';
+        allBibleButtons[i].style.border = "1px solid grey";
+        allBibleButtons[i].style.height = "30px";
+    }
+
+    for (i = 0; i < allBibleSelects.length; i++) {
+        allBibleSelects[i].style.boxSizing = 'border-box';
+        allBibleSelects[i].style.backgroundColor = 'gainsboro';
+        allBibleSelects[i].style.color = 'black';
+        allBibleSelects[i].style.padding = '4px';
+        allBibleSelects[i].style.margin = '0px';
+        allBibleSelects[i].style.border = "1px solid grey";
+        allBibleSelects[i].style.height = "30px";
+    }
+
+    for (i = 0; i < allBibleOptions.length; i++) {
+        allBibleOptions[i].style.boxSizing = 'border-box';
+        allBibleOptions[i].style.backgroundColor = 'gainsboro';
+        allBibleOptions[i].style.color = 'black';
+        allBibleOptions[i].style.padding = '0px';
+        allBibleOptions[i].style.margin = '0px';
+        allBibleOptions[i].style.height = "30px";
+    }
+
+    for (i = 0; i < allBibleImages.length; i++) {
+        allBibleImages[i].style.display = "inline-block";
+    }
+}
+
+//hide while page rendering and then restyle below after page load
+myTopControlsDiv.style.display = "none";
+
+//zoomed out 5x's to start with timeout needed to allow loading of resources
+setTimeout(() => {
+    myMap.height = myMap.height * 0.6;
+    let floatFontSize = parseFloat(bullsEye.style.fontSize.slice(0, -2));
+    floatFontSize = floatFontSize * 0.6;
+    bullsEye.style.fontSize = floatFontSize.toString() + "em";
+    restyle();
+}, 300);

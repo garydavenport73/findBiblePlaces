@@ -1,4 +1,4 @@
-//nested burger type menu code, although in stead of hamburger menu
+//nested burger type menu code, although instead of hamburger menu
 //the menu text is a word
 let nestburgers = document.getElementsByClassName("nestburger");
 for (let nestburger of nestburgers) {

@@ -35,6 +35,10 @@
         list-style: none;
     }
     
+    ul li ul p {
+        text-align: left;
+    }
+    
     a {
         color: black;
         text-decoration: none;
@@ -62,23 +66,38 @@
         <ul>
             <li>
                 <div class='nestburger'>Home</div>
+                <hr>
                 <div class='sibling'> <a href="https://github.com/garydavenport73/findBiblePlaces/">https://github.com/garydavenport73/findBiblePlaces/</a></div>
             </li>
             <li>
                 <div class='nestburger'>Contact</div>
+                <hr>
                 <div class='sibling'><a href="mailto:garydavenport73@gmail.com">mailto:garydavenport73@gmail.com</a></div>
             </li>
             <li>
-                <div class='nestburger initial-open'>About</div>
+                <div class='nestburger'>About</div>
+                <hr>
                 <div class='sibling'>
-                    <p>Look for the search button and drop down-list in the top middle of the page. Click 'Find Bible Places' and then select the place you'd like to see on a map.</p>
-                    <p>Look for overlays of Biblical maps coming soon!</p>
+                    <ul>
+                        <p>Look for the search button and drop down-list in the top middle of the page. Click 'Find Bible Places' and then select the place you'd like to see on a map.</p>
+                        <p>Select your map</p>
+                        <p>... or open in Google Maps.</p>
+                        <p>Zoom in with the - and + buttons.</p>
+                    </ul>
+
                 </div>
             </li>
             <li>
                 <div class='nestburger'>Credits</div>
+                <hr>
                 <div class='sibling'>https://github.com/openbibleinfo/Bible-Geocoding-Data</div>
                 <div class='sibling'>https://www.openbible.info/geo/</div>
+                <div>
+                    <hr>
+                </div>
+                <div class='sibling'>Maps from <strong>Bible Dictionary, Teacher's Edition</strong><sub>1</sub>, published 1884 subject to Fair Use.
+                    <br><br><sup>1</sup> Smith, Sir William, et al. A Dictionary of the Bible; Comprising Its Antiquities, Biography, Geography, Natural History and Literature, with the Latest Researches and References to the Revised Version of the New
+                    Testament. The John C. Winston Company, 1884. </div>
             </li>
         </ul>
     </nav>
