@@ -1165,6 +1165,7 @@ let locations = {
 };
 
 let elements = document.getElementsByTagName('*');
+let currentBackGroundColor = 'rgba(220,220,220,0.5)';
 
 //Main Div below sticky tool bar, children to be added
 let myDiv = document.createElement('div');
@@ -1174,13 +1175,79 @@ document.body.prepend(myDiv);
 //Top control sticky buttons
 let myTopControlsDiv = document.createElement('div');
 myTopControlsDiv.classList.add('Bible-place-finder-div');
-document.body.prepend(myTopControlsDiv);
-myTopControlsDiv.style.position = 'fixed';
-myTopControlsDiv.style.zIndex = 999999;
-myTopControlsDiv.style.top = 0;
-myTopControlsDiv.style.left = '50%';
 myTopControlsDiv.style.textAlign = 'center';
-myTopControlsDiv.style.transform = 'translate(-50%, 0%)';
+document.body.prepend(myTopControlsDiv);
+myDiv.style.textAlign = 'center';
+moveCenter();
+
+//Add button to move to left of screen
+let leftButton = document.createElement('button');
+leftButton.classList.add('Bible-place-finder-button');
+leftButton.innerHTML = "&larr;";
+myTopControlsDiv.appendChild(leftButton);
+leftButton.addEventListener("click", moveLeft);
+
+//Add button to move to left of screen
+let centerButton = document.createElement('button');
+centerButton.classList.add('Bible-place-finder-button');
+centerButton.innerHTML = "&harr;";
+myTopControlsDiv.appendChild(centerButton);
+centerButton.addEventListener("click", moveCenter);
+
+//Add button to move to left of screen
+let rightButton = document.createElement('button');
+rightButton.classList.add('Bible-place-finder-button');
+rightButton.innerHTML = "&rarr;";
+myTopControlsDiv.appendChild(rightButton);
+rightButton.addEventListener("click", moveRight);
+
+function moveLeft() {
+    myTopControlsDiv.style.position = 'fixed';
+    myTopControlsDiv.style.zIndex = 999999;
+    myTopControlsDiv.style.right = 'unset';
+    myTopControlsDiv.style.top = 0;
+    myTopControlsDiv.style.left = 0;
+    myTopControlsDiv.style.transform = 'unset';
+
+    myDiv.style.zIndex = 99999;
+    myDiv.style.top = '30px';
+    myDiv.style.right = 'unset';
+    myDiv.style.left = 0;
+    myDiv.style.textAlign = 'center';
+    myDiv.style.transform = 'unset';
+}
+
+function moveCenter() {
+    myTopControlsDiv.style.position = 'fixed';
+    myTopControlsDiv.style.zIndex = 999999;
+    myTopControlsDiv.style.right = 'unset';
+    myTopControlsDiv.style.top = 0;
+    myTopControlsDiv.style.left = '50%';
+    myTopControlsDiv.style.transform = 'translate(-50%, 0%)';
+
+    myDiv.style.zIndex = 99999;
+    myDiv.style.right = 'unset';
+    myDiv.style.top = '30px';
+    myDiv.style.left = '50%';
+    myDiv.style.transform = 'translate(-50%, 0%)';
+}
+
+function moveRight() {
+    myTopControlsDiv.style.position = 'fixed';
+    myTopControlsDiv.style.zIndex = 999999;
+    myTopControlsDiv.style.left = 'unset';
+    myTopControlsDiv.style.top = 0;
+    myTopControlsDiv.style.right = 0;
+    myTopControlsDiv.style.transform = 'unset';
+
+    myDiv.style.zIndex = 99999;
+    myDiv.style.top = '30px';
+    myDiv.style.right = 0;
+    myDiv.style.left = 'unset';
+    myDiv.style.textAlign = 'center';
+    myDiv.style.transform = 'unset';
+}
+
 
 //Add find button to top controls
 let findButton = document.createElement('button');
@@ -1225,6 +1292,60 @@ buttonEnlargeMap.innerHTML = '+';
 buttonEnlargeMap.disabled = true;
 myTopControlsDiv.appendChild(buttonEnlargeMap);
 
+//Add button to minimize controls
+let transparentButton = document.createElement('button');
+transparentButton.classList.add('Bible-place-finder-button');
+transparentButton.innerHTML = "&loz;";
+myTopControlsDiv.appendChild(transparentButton);
+transparentButton.addEventListener("click", toggleTransparent);
+
+//Add button to minimize controls
+let hamburgerMenuButton = document.createElement('button');
+hamburgerMenuButton.classList.add('Bible-place-finder-button');
+hamburgerMenuButton.innerHTML = "&equiv;";
+myTopControlsDiv.appendChild(hamburgerMenuButton);
+hamburgerMenuButton.addEventListener("click", toggleHamburgerMenu);
+
+function toggleTransparent() {
+    console.log(transparentButton.innerHTML);
+    if (transparentButton.innerHTML === "◊") {
+        //currently is semi-transparent, make solid
+        currentBackGroundColor = 'rgba(220,220,220,1)';
+        transparentButton.innerHTML = "&diams;";
+    } else {
+        currentBackGroundColor = 'rgba(220,220,220,0.5)';
+        transparentButton.innerHTML = "&loz;";
+    }
+    let thisTempString = myMapDiv.style.display; //store setting and revert after restyle
+    restyle();
+    myMapDiv.style.display = thisTempString;
+}
+
+function toggleHamburgerMenu() {
+    console.log("toggleHamburgerMenu called");
+    let burgerSiblings = hamburgerMenuButton.parentElement.children;
+    for (let sibling of burgerSiblings) {
+        if (sibling === hamburgerMenuButton) {
+            //alert("found self!");
+        } else {
+            if (sibling.style.display === "none") {
+                sibling.style.display = "inline-block";
+                hamburgerMenuButton.innerHTML = "&equiv;";
+            } else {
+                sibling.style.display = "none";
+                hamburgerMenuButton.innerHTML = "&#10013; &equiv;";
+            }
+        }
+    }
+    //has just closed, now hamburgerMenuBtton is a cross
+
+    if (hamburgerMenuButton.innerHTML === "✝ ≡") { //just closed
+        lastMyMapDivDisplay = myMapDiv.style.display;
+        myMapDiv.style.display = 'none';
+    } else { //just opened
+        myMapDiv.style.display = lastMyMapDivDisplay;
+    }
+}
 //Add area to contain map stuff
 let myMapDiv = document.createElement('div');
 myMapDiv.classList.add('Bible-place-finder-div');
@@ -1310,6 +1431,8 @@ myImageDiv.appendChild(myMap);
 //set default image on load
 let mapURL = chrome.extension.getURL("/images/map3.png");
 myMap.src = mapURL;
+myMap.style.objectFit = 'cover';
+//myMap.style.objectFit = 'contain';
 
 //make a map marker
 let bullsEye = document.createElement('div');
@@ -1554,7 +1677,7 @@ function openGoogleMapsFromSelectedOption() {
 //displays or hides current map, + or - controls of map size disabled when map not visible 
 function toggleMap() {
     if (myMapDiv.style.display === "none") {
-        myMapDiv.style.display = "inherit";
+        myMapDiv.style.display = "block";
         buttonShrinkMap.disabled = false;
         buttonEnlargeMap.disabled = false;
         bullsEye.innerHTML = "";
@@ -1648,7 +1771,7 @@ function checkPageForCities() {
         console.log("elapsed time = ", (stopTimeStamp - startTimeStamp) / 1000); //courtesy console notification
         message.innerHTML = "Elapsed time = " + ((stopTimeStamp - startTimeStamp) / 1000).toString() + " seconds.";
         findButton.innerHTML = "Find Bible Places";
-        findButton.style.backgroundColor = 'gainsboro';
+        findButton.style.backgroundColor = currentBackGroundColor;
         findButton.style.color = 'black';
 
     }, 100);
@@ -1662,9 +1785,9 @@ let allBibleOptions = document.getElementsByClassName('Bible-place-finder-option
 let allBibleImages = document.getElementsByClassName('Bible-place-finder-img');
 
 //some styling performed on elements this app places in page
+
 function restyle() {
     for (i = 0; i < allBibleDivs.length; i++) {
-        //console.log(allBibleDivs[i]);
         allBibleDivs[i].style.boxSizing = 'border-box';
         allBibleDivs[i].style.display = 'block';
         allBibleDivs[i].style.margin = '0px';
@@ -1673,7 +1796,7 @@ function restyle() {
     myMapDiv.style.display = "none";
 
     for (i = 0; i < allBibleButtons.length; i++) {
-        allBibleButtons[i].style.backgroundColor = 'gainsboro';
+        allBibleButtons[i].style.backgroundColor = currentBackGroundColor;
         allBibleButtons[i].style.boxSizing = 'border-box';
         allBibleButtons[i].style.color = 'black';
         allBibleButtons[i].style.padding = '4px';
@@ -1684,8 +1807,8 @@ function restyle() {
 
     for (i = 0; i < allBibleSelects.length; i++) {
         allBibleSelects[i].style.boxSizing = 'border-box';
-        allBibleSelects[i].style.backgroundColor = 'gainsboro';
-        allBibleSelects[i].style.color = 'black';
+        allBibleSelects[i].style.backgroundColor = currentBackGroundColor;
+        allBibleSelects[i].style.color = 'saddlebrow';
         allBibleSelects[i].style.padding = '4px';
         allBibleSelects[i].style.margin = '0px';
         allBibleSelects[i].style.border = "1px solid grey";
@@ -1694,7 +1817,7 @@ function restyle() {
 
     for (i = 0; i < allBibleOptions.length; i++) {
         allBibleOptions[i].style.boxSizing = 'border-box';
-        allBibleOptions[i].style.backgroundColor = 'gainsboro';
+        allBibleOptions[i].style.backgroundColor = currentBackGroundColor;
         allBibleOptions[i].style.color = 'black';
         allBibleOptions[i].style.padding = '0px';
         allBibleOptions[i].style.margin = '0px';
@@ -1708,6 +1831,7 @@ function restyle() {
 
 //hide while page rendering and then restyle below after page load
 myTopControlsDiv.style.display = "none";
+let lastMyMapDivDisplay = myMapDiv.style.display;
 
 //zoomed out 5x's to start with timeout needed to allow loading of resources
 setTimeout(() => {
