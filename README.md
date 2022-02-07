@@ -26,13 +26,15 @@ You can then select a location and the coordinates of that location are used to 
 
 You can also zoom in or out on the map for more or less detail
 
-This new version of Bible Place Finder uses a better algorithm which finds more places on each page.  Additionally, it works better with the most popular commentary websites, which tend to contain a lot of integrated links within the inner text.
+This latest version of Bible Place Finder uses a better algorithm which finds more places on each page.  Additionally, it works better with the most popular commentary websites, which tend to contain a lot of integrated links within the inner text.
 
 The search algorithm does take a little longer but gives much more satisfactory results.
 
 This search algorithm finds everything the previous algorithm found but more to added locations and an improved algorithm.  Additionally, it provides the same identical Google Maps link as the previous version.  Instead of clicking on the drop down selection though, you open the maps window and click on the Google Maps button.
 
 Also, when the map area is displayed, a latitude and longitude will be displayed as well as if the location has gone off the map.
+
+New in this last version, arrows (&larr;/&rarr;) are added to the toolbar to allow for docking to the left, right, or center.  There is a minimize button &equiv;, and there is a &diams;/&loz; button which changes to semi-transparent or solid color.
 
 For the tech savvy, you can also get a list of found locations, elapsed search time, and coordinates in the browser console.
 

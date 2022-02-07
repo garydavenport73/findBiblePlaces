@@ -1,0 +1,6 @@
+x make default minimized and to left
+
+x right left shown on minimize.
+x do away with center
+
+x make not transluscent background
