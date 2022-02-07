@@ -1166,6 +1166,7 @@ let locations = {
 
 let elements = document.getElementsByTagName('*');
 let currentBackGroundColor = 'rgba(220,220,220,0.5)';
+let position = "left"; //this is used to track docking position
 
 //Main Div below sticky tool bar, children to be added
 let myDiv = document.createElement('div');
@@ -1178,7 +1179,6 @@ myTopControlsDiv.classList.add('Bible-place-finder-div');
 myTopControlsDiv.style.textAlign = 'center';
 document.body.prepend(myTopControlsDiv);
 myDiv.style.textAlign = 'center';
-moveCenter();
 
 //Add button to move to left of screen
 let leftButton = document.createElement('button');
@@ -1188,20 +1188,54 @@ myTopControlsDiv.appendChild(leftButton);
 leftButton.addEventListener("click", moveLeft);
 
 //Add button to move to left of screen
-let centerButton = document.createElement('button');
-centerButton.classList.add('Bible-place-finder-button');
-centerButton.innerHTML = "&harr;";
-myTopControlsDiv.appendChild(centerButton);
-centerButton.addEventListener("click", moveCenter);
-
-//Add button to move to left of screen
 let rightButton = document.createElement('button');
 rightButton.classList.add('Bible-place-finder-button');
 rightButton.innerHTML = "&rarr;";
-myTopControlsDiv.appendChild(rightButton);
 rightButton.addEventListener("click", moveRight);
+//appended later after other buttons are placed in the div
 
 function moveLeft() {
+    if (position === "left") {
+        //do nothing
+    } else if (position === "center") {
+        moveToLeft();
+        position = "left";
+    } else if (position === "right") {
+        moveToCenter();
+        position = "center";
+    }
+    adjustLRButtonDisplay();
+}
+
+function moveRight() {
+    if (position === "left") {
+        moveToCenter();
+        position = "center";
+    } else if (position === "center") {
+        moveToRight();
+        position = "right";
+    } else if (position === "right") {
+        //do nothing
+    }
+    adjustLRButtonDisplay();
+}
+
+//displays only arrows that make sense to have on screen
+//ie left button not shown if toolbar already to left
+function adjustLRButtonDisplay() {
+    if (position === "left") {
+        leftButton.style.display = "none";
+        rightButton.style.display = "inline-block";
+    } else if (position === "right") {
+        leftButton.style.display = "inline-block";
+        rightButton.style.display = "none";
+    } else if (position === "center") {
+        leftButton.style.display = "inline-block";
+        rightButton.style.display = "inline-block";
+    }
+}
+
+function moveToLeft() {
     myTopControlsDiv.style.position = 'fixed';
     myTopControlsDiv.style.zIndex = 999999;
     myTopControlsDiv.style.right = 'unset';
@@ -1217,7 +1251,7 @@ function moveLeft() {
     myDiv.style.transform = 'unset';
 }
 
-function moveCenter() {
+function moveToCenter() {
     myTopControlsDiv.style.position = 'fixed';
     myTopControlsDiv.style.zIndex = 999999;
     myTopControlsDiv.style.right = 'unset';
@@ -1232,7 +1266,7 @@ function moveCenter() {
     myDiv.style.transform = 'translate(-50%, 0%)';
 }
 
-function moveRight() {
+function moveToRight() {
     myTopControlsDiv.style.position = 'fixed';
     myTopControlsDiv.style.zIndex = 999999;
     myTopControlsDiv.style.left = 'unset';
@@ -1306,6 +1340,9 @@ hamburgerMenuButton.innerHTML = "&equiv;";
 myTopControlsDiv.appendChild(hamburgerMenuButton);
 hamburgerMenuButton.addEventListener("click", toggleHamburgerMenu);
 
+//this created above, added now to be rightmost button
+myTopControlsDiv.appendChild(rightButton);
+
 function toggleTransparent() {
     console.log(transparentButton.innerHTML);
     if (transparentButton.innerHTML === "◊") {
@@ -1325,7 +1362,8 @@ function toggleHamburgerMenu() {
     console.log("toggleHamburgerMenu called");
     let burgerSiblings = hamburgerMenuButton.parentElement.children;
     for (let sibling of burgerSiblings) {
-        if (sibling === hamburgerMenuButton) {
+        //don't toggle self or left right buttons
+        if ((sibling === hamburgerMenuButton) || (sibling === leftButton) || (sibling === rightButton)) {
             //alert("found self!");
         } else {
             if (sibling.style.display === "none") {
@@ -1841,3 +1879,8 @@ setTimeout(() => {
     bullsEye.style.fontSize = floatFontSize.toString() + "em";
     restyle();
 }, 300);
+
+moveToLeft();
+leftButton.style.display = "none";
+toggleTransparent();
+toggleHamburgerMenu();
