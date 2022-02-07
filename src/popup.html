@@ -57,6 +57,20 @@
         padding: 3px;
         text-align: left;
     }
+    
+    #toolbar-title {
+        text-decoration: underline;
+    }
+    
+    #toolbar li {
+        margin: 0 0 0 2rem;
+        padding: 0;
+        text-align: left;
+    }
+    
+    #toolbar {
+        border: 1px solid grey;
+    }
 </style>
 
 <body>
@@ -82,7 +96,18 @@
                         <p>Look for the search button and drop down-list in the top middle of the page. Click 'Find Bible Places' and then select the place you'd like to see on a map.</p>
                         <p>Select your map</p>
                         <p>... or open in Google Maps.</p>
-                        <p>Zoom in with the - and + buttons.</p>
+                        <p>
+                            <p id='toolbar-title'>Toolbar Controls:</p>
+                            <ul id='toolbar'>
+                                <li>&larr; &Tab; Move dock to left.</li>
+                                <li>&rarr; Move dock to right.</li>
+                                <li>+ Zoom in on map.</li>
+                                <li>- Zoom out on map.</li>
+                                <li>&diams; Make toolbar solid.</li>
+                                <li>&loz; Make toolbar semi-transparent.</li>
+                                <li>&equiv; Toggle to minimize/maximize.</li>
+                            </ul>
+                        </p>
                     </ul>
 
                 </div>
