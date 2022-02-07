@@ -24,9 +24,9 @@ The program then looks through a known list geographic regions and checks to see
 
 You can then select a location and the coordinates of that location are used to plot a marker on a map of your choice, or the location can be displayed on Google Maps.
 
-You can also zoom in or out on the map for more or less detail
+You can also zoom in or out on the map for more or less detail.
 
-This latest version of Bible Place Finder uses a better algorithm which finds more places on each page.  Additionally, it works better with the most popular commentary websites, which tend to contain a lot of integrated links within the inner text.
+The latest version of Bible Place Finder uses a better algorithm which finds more places on each page.  Additionally, it works better with the most popular commentary websites, which tend to contain a lot of integrated links within the inner text.
 
 The search algorithm does take a little longer but gives much more satisfactory results.
 
@@ -34,7 +34,7 @@ This search algorithm finds everything the previous algorithm found but more to 
 
 Also, when the map area is displayed, a latitude and longitude will be displayed as well as if the location has gone off the map.
 
-New in this last version, arrows (&larr;/&rarr;) are added to the toolbar to allow for docking to the left, right, or center.  There is a minimize button &equiv;, and there is a &diams;/&loz; button which changes to semi-transparent or solid color.
+New in this latest version, arrows (&larr;/&rarr;) are added to the toolbar to allow for docking to the left, right, or center.  There is a minimize button &equiv;, and there is a &diams;/&loz; button which changes to semi-transparent or solid color.
 
 For the tech savvy, you can also get a list of found locations, elapsed search time, and coordinates in the browser console.
 
