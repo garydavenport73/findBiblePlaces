@@ -1,0 +1,28 @@
+This extension scans text in the current web page to look for a list of known places in the Bible.  If these places are found, they are added to a found list.  
+
+The user can then choose a location from the list and view it on a map of their choice or see the location in Google Maps.
+
+Overall, this extension helps the user reading a web page locate historical locations mentioned in the Bible.
+
+Changes since the last version are summarized as follows:
+1) This version will produce and include every result the prior version produced and also provides identical Google Map links as the prior version.
+2) Buttons that allow the toolbar to be docked to the ←left, ←→center or →right are added.
+3) A minimize ≣ button is added.
+4) ♦/◊ button is added to make the toolbar solid or semi-transparent.
+
+
+
+This extension scans text in the current web page to look for a list of known places in the Bible.  If these places are found, they are added to a found list.  
+
+The user can then choose a location from the list and view it on a map of their choice or see the location in Google Maps.
+
+Overall, this extension helps the user reading a web page locate historical locations mentioned in the Bible.
+
+Changes since the last version are summarized as follows:
+1) The algorithm has been improved to find more occurrences.
+2) The user has a choice of seeing the location on a series of historical maps or seeing the Location on Google Maps.
+3) The list of locations has been updated to include more locations.
+4) Elapsed search time is calculated and shown.
+5) Latitude/Longitude values are shown on the map.
+6) Courtesy information is written to the console.
+7) This version will produce and include every result the prior version produced and also provides identical Google Map links as the prior version.
