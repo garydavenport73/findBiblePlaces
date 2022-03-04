@@ -4,3 +4,10 @@ x right left shown on minimize.
 x do away with center
 
 x make not transluscent background
+
+
+change search string to be 
+
+https://maps.google.com/?q=<lat>,<lng>
+
+old search string no longer working
