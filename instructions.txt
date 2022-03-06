@@ -1,0 +1,8 @@
+zip up:
+-icons
+-images
+-src
+-manifest.json 
+
+into new folder BiblePlaceFinder.zip
+(no subfolder in zip called BiblePlaceFinder etc)

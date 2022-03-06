@@ -1467,7 +1467,8 @@ myMapDiv.appendChild(myImageControlsDiv);
 myImageDiv.appendChild(myMap);
 
 //set default image on load
-let mapURL = chrome.extension.getURL("/images/map3.png");
+//let mapURL = chrome.extension.getURL("/images/map3.png");
+let mapURL = chrome.runtime.getURL("/images/map3.png");
 myMap.src = mapURL;
 myMap.style.objectFit = 'cover';
 //myMap.style.objectFit = 'contain';
@@ -1540,7 +1541,8 @@ function chooseMap(evt) {
     let tempStringIndex = evt.target.id.slice(-1);
     //create string to locate map in folder
     let tempString = "/images/map" + mapIndexObject[tempStringIndex] + ".png";
-    mapURL = chrome.extension.getURL(tempString);
+    //mapURL = chrome.extension.getURL(tempString);   
+    mapURL = chrome.runtime.getURL(tempString);
     myMap.src = mapURL;
     //wait for map to be loaded because plot will rely on
     //map image characteristics, width etc.
@@ -1702,11 +1704,11 @@ function plotBullsEye() {
 //if Google Maps option is selected, launch a new webpage with constructed URL
 function openGoogleMapsFromSelectedOption() {
     if (mySelect.value === "---") {
-        //window.open("https://www.google.com/search?q=map:31.777444,35.234935"); //Jerusalem
+        //window.open("https://www.google.com/maps?q=map:31.777444,35.234935"); //Jerusalem
     } else {
         let cityTempArray = mySelect.value.split(",");
         //console.log(cityTempArray);
-        let tempGoogleMapURL = `https://www.google.com/search?q=map:${cityTempArray[1]},${cityTempArray[2]}`;
+        let tempGoogleMapURL = `https://www.google.com/maps?q=${cityTempArray[1]},${cityTempArray[2]}`;
         console.log(tempGoogleMapURL);
         window.open(tempGoogleMapURL);
     }
