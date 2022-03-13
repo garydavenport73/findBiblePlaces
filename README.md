@@ -34,7 +34,9 @@ This search algorithm finds everything the previous algorithm found but more to 
 
 Also, when the map area is displayed, a latitude and longitude will be displayed as well as if the location has gone off the map.
 
-New in this latest version, arrows (&larr;/&rarr;) are added to the toolbar to allow for docking to the left, right, or center.  There is a minimize button &equiv;, and there is a &diams;/&loz; button which changes to semi-transparent or solid color.
+New in this latest version, the Arrow ↑ will stick the map to the top of the page.  The Arrow ↓ designates that the the map will stay fixed with scrolling.  
+
+Arrows (←/→) allow for docking to the left, right, or center.  There is a minimize button ≡, and there is a ♦/◊ button which changes to semi-transparent or solid color.
 
 For the tech savvy, you can also get a list of found locations, elapsed search time, and coordinates in the browser console.
 

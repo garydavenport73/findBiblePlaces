@@ -1308,6 +1308,14 @@ myToggleMapButton.innerHTML = "Toggle Maps";
 myTopControlsDiv.appendChild(myToggleMapButton);
 myToggleMapButton.addEventListener("click", toggleMap);
 
+//Add "-" button to allow fixed or absolute positioning
+let buttonFixedMap = document.createElement('button');
+buttonFixedMap.classList.add('Bible-place-finder-button');
+buttonFixedMap.id = 'fixed-toggle';
+buttonFixedMap.addEventListener('click', toggleFixedMap);
+buttonFixedMap.innerHTML = '&darr;';
+myTopControlsDiv.appendChild(buttonFixedMap);
+
 //Add "-" button to shrink map size
 let buttonShrinkMap = document.createElement('button');
 buttonShrinkMap.classList.add('Bible-place-finder-button');
@@ -1342,6 +1350,23 @@ hamburgerMenuButton.addEventListener("click", toggleHamburgerMenu);
 
 //this created above, added now to be rightmost button
 myTopControlsDiv.appendChild(rightButton);
+
+
+function toggleFixedMap() {
+    if (buttonFixedMap.innerHTML === "↓") {
+        buttonFixedMap.innerHTML = "&uarr;";
+        //make positioning absolute
+        bullsEye.style.position = 'absolute'; //changes made here
+        myDiv.style.position = 'absolute'; //changes made here
+        message.style.position = 'absolute'; //changes made here
+    } else {
+        buttonFixedMap.innerHTML = "&darr;";
+        //make positioning fixed
+        bullsEye.style.position = 'fixed'; //changes made here
+        myDiv.style.position = 'fixed'; //changes made here
+        message.style.position = 'fixed'; //changes made here
+    }
+}
 
 function toggleTransparent() {
     console.log(transparentButton.innerHTML);
@@ -1477,12 +1502,12 @@ myMap.style.objectFit = 'cover';
 let bullsEye = document.createElement('div');
 bullsEye.classList.add('Bible-place-finder-div');
 bullsEye.innerHTML = "";
-bullsEye.style.position = 'absolute';
+bullsEye.style.position = 'fixed'; //changes made here
 bullsEye.style.fontSize = "5em";
 myImageDiv.appendChild(bullsEye);
 
 //bottom container styled
-myDiv.style.position = 'absolute';
+myDiv.style.position = 'fixed'; //changes made here
 myDiv.style.zIndex = 99999;
 myDiv.style.top = '30px';
 myDiv.style.left = '50%';
@@ -1494,7 +1519,7 @@ myDiv.style.transform = 'translate(-50%, 0%)';
 let message = document.createElement('div');
 message.classList.add('Bible-place-finder-div');
 message.innerHTML = "";
-message.style.position = 'absolute';
+message.style.position = 'fixed'; //changes made here
 message.style.color = "saddlebrown";
 message.style.backgroundColor = "tan";
 myImageDiv.appendChild(message);

@@ -1,7 +1,7 @@
 {
     "manifest_version": 3,
     "name": "Bible Place Finder",
-    "version": "0.0.4",
+    "version": "0.0.5",
     "description": "This extension helps the user locate geographic places listed in the Bible and facilitates viewing them on maps.",
     "icons": {
         "16": "icons/bpf16x16.png",

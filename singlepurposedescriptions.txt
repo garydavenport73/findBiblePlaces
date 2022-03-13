@@ -4,8 +4,5 @@ The user can then choose a location from the list and view it on a map of their 
 
 Overall, this extension helps the user reading a web page locate historical locations mentioned in the Bible.
 
-Version 0.0.4 changes are the following:
-1) updated manifest from V2 to V3.
-2) updated search url format to: https://maps.google.com/?q=<lat>,<long>
-3) replaced chrome.extension.getURL() (deprecated) with chrome.runtime.getURL()
-4) updated contact information in the drop down menu
+Version 0.0.5 changes are the following:
+1) Added a button with the ability to have the map scroll with page (absolute positioning) or fixed in place (fixed).
