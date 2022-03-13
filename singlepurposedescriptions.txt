@@ -5,5 +5,5 @@ The user can then choose a location from the list and view it on a map of their 
 Overall, this extension helps the user reading a web page locate historical locations mentioned in the Bible.
 
 Version 0.0.5 changes are the following:
-1) Added a button with the ability to have the map scroll with page (absolute positioning) or fixed in place (fixed).\
-2) Changed latitude and longitude message position to above map buttons.
+1) Added a button with the ability to have the map scroll with page (absolute positioning) or fixed in place (fixed).
+2) No longer overlaying message on top of map, changed position to just above map buttons.
