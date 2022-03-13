@@ -1367,6 +1367,7 @@ function toggleFixedMap() {
         //message.style.position = 'fixed'; //changes made here
     }
     //placeMessage()
+    plotBullsEye();
 }
 
 function toggleTransparent() {
@@ -1700,6 +1701,10 @@ function plotBullsEye() {
         xValue = xValue + leftOffset;
 
         yValue = yValue + topOffset;
+
+        if (bullsEye.style.position === "absolute") {
+            yValue = yValue - 30; //standard height of top controls, etc
+        }
 
         bullsEye.style.left = xValue.toString() + "px";
         bullsEye.style.top = yValue.toString() + "px";
