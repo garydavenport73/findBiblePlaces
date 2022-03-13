@@ -1723,7 +1723,7 @@ function plotBullsEye() {
 
         setTimeout(() => { //show lat/long message after everything loads
             message.innerHTML = messageString;
-        }, 1000);
+        }, 316);
     }
 }
 
@@ -1758,8 +1758,10 @@ function toggleMap() {
 
 //relocates message to upper left of current map
 function placeMessage() {
-    message.style.left = myMap.offsetLeft.toString() + "px";
-    message.style.top = myMap.offsetTop.toString() + "px";
+    // no longer needed but left in case absolute positioning
+    // used again at all times. 
+    // message.style.left = myMap.offsetLeft.toString() + "px";
+    // message.style.top = myMap.offsetTop.toString() + "px";
 }
 
 //Since last version, I exclude buttons I placed on webpage.
