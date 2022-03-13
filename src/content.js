@@ -1358,14 +1358,15 @@ function toggleFixedMap() {
         //make positioning absolute
         bullsEye.style.position = 'absolute'; //changes made here
         myDiv.style.position = 'absolute'; //changes made here
-        message.style.position = 'absolute'; //changes made here
+        //message.style.position = 'absolute'; //changes made here
     } else {
         buttonFixedMap.innerHTML = "&darr;";
         //make positioning fixed
         bullsEye.style.position = 'fixed'; //changes made here
         myDiv.style.position = 'fixed'; //changes made here
-        message.style.position = 'fixed'; //changes made here
+        //message.style.position = 'fixed'; //changes made here
     }
+    //placeMessage()
 }
 
 function toggleTransparent() {
@@ -1518,8 +1519,8 @@ myDiv.style.transform = 'translate(-50%, 0%)';
 //for latitude/longitude and other info etc.
 let message = document.createElement('div');
 message.classList.add('Bible-place-finder-div');
-message.innerHTML = "";
-message.style.position = 'fixed'; //changes made here
+message.innerHTML = "Welcome to the Bible Place Finder.";
+//message.style.position = 'absolute'; //changes made here
 message.style.color = "saddlebrown";
 message.style.backgroundColor = "tan";
 myImageDiv.appendChild(message);
@@ -1630,7 +1631,7 @@ function plotBullsEye() {
         console.log();
         console.log(coordinatesTempArray[0] + ":");
         console.log("longitude: " + longitude.toString() + ", latitude: " + latitude.toString());
-        message.innerHTML = "";
+        message.innerHTML = "Working...";
 
         //extract map number from map filename
         let mapNumberString = myMap.src.split(".png")[0];
